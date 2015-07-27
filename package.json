@@ -1,0 +1,17 @@
+{
+  "name": "ExpenseCalculator",
+  "version": "0.0.0",
+  "description": "Simple expense calculator application",
+  "main": "app.js",
+  "dependencies": {
+    "express": "~4.13.1",
+    "supervisor": "~0.7.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "supervisor app.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
