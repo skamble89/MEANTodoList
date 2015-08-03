@@ -8,9 +8,14 @@ var router = require('./modules/router');
 var view_engine = require('./modules/underscore_view_engine');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 
 //Configure middlewares
 app.use(express.static('static'));
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use('/', router);
 app.use(passport.initialize());
 app.use(flash());
