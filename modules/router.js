@@ -7,11 +7,10 @@ module.exports = function(passport){
 	});
 
 	router.post('/account/login', passport.authenticate('local', {
-	    successRedirect: '/todos/create',
+	    successRedirect: '/todos/list',
 	    failureRedirect: '/account/login',
 	    failureFlash : true 
 	}));
-
 
 	router.all('/:controller?/:action?', isAuthenticated, function (req, res, next) {
 		var route = require('../controllers/' + req.params.controller + '/' + req.params.action);	
