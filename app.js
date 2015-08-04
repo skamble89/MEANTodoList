@@ -1,57 +1,44 @@
 var flash = require('connect-flash');
 var express = require('express');
-var settings_module = require('./modules/settings');
-var settings = settings_module.getSettings();
 var app = express();
-var db = require('mongoskin').db(settings.connection_string);
 var router = require('./modules/router');
 var view_engine = require('./modules/underscore_view_engine');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var expressSession = require('express-session');
 
 //Configure middlewares
+app.use(expressSession({secret: 'mySecretKey'}));
 app.use(express.static('static'));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use('/', router);
 app.use(passport.initialize());
+app.use(passport.session());
+app.use('/', router(passport));
 app.use(flash());
+
+passport.serializeUser(function(user, done) {
+    done(null, user.name);
+}); 
+passport.deserializeUser(function(id, done) {  
+    done(null, {name:'Saurabh Kambele', age: 26});  
+});
+
 passport.use(new LocalStrategy(
-  	function(username, password, done) {
-    // User.findOne({ username: username }, function (err, user) {
-    //   if (err) { return done(err); }
-    //   if (!user) {
-    //     return done(null, false, { message: 'Incorrect username.' });
-    //   }
-    //   if (!user.validPassword(password)) {
-    //     return done(null, false, { message: 'Incorrect password.' });
-    //   }
-    //   return done(null, user);
-    // });
-	
-		if(username === 'root' && password === 'root'){
-			return done(null, {
-				name: 'Saurabh Kamble', 
-				age: 26
-			});
-		}else{
-			return done(null, false)
-		}
+  	function(username, password, done) {	
+  		if(username === 'root' && password === 'root'){
+  			return done(null, {
+  				name: 'Saurabh Kamble', 
+  				age: 26
+  			});
+  		}else{
+  			return done(null, false)
+  		}
   	}
 ));
-
-
-app.post('/account/login',
-  passport.authenticate('local', { successRedirect: '/todos/create',
-                                   failureRedirect: '/login',
-                                   failureFlash: true })
-);
-
-
-
 
 //Configure view engine
 app.engine('html', view_engine.renderFile);
