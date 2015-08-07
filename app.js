@@ -24,7 +24,7 @@ passport.serializeUser(function(user, done) {
     done(null, user.name);
 }); 
 passport.deserializeUser(function(id, done) {  
-    done(null, {name:'Saurabh Kambele', age: 26});  
+    done(null, {name:'Saurabh Kamble', age: 26});  
 });
 
 passport.use(new LocalStrategy(

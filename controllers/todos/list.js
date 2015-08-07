@@ -1,4 +1,3 @@
-exports.get = function(req, res, next){
-	//res.send('This is test response for ' + req.params.action);
-	res.render('todos/list', {name:"Dude"});
+exports.get = function(req, res, next){	
+	res.render('todos/list', req.user);
 }

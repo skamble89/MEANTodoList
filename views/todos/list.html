@@ -6,10 +6,19 @@
 		<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="/css/style.css">
 	</head>
-	<body ng-app>
+	<body ng-app="todosApp">
 		<h1>Welcome, <%=name%></h1>
-		<h2>{{3+5}}</h2>
+		<div ng-controller="TodosController">
+			<ul>
+				<li ng-repeat="todo in todos" todo-id="{{todo._id}}">
+					<h3>{{todo.title}}</h3>
+					<p>{{todo.description}}</p>
+					<input type="checkbox" ng-checked="todo.completed"/>
+				</li>
+			</ul>
+		</div>		
 		<script type="text/javascript" src="/js/jquery.min.js"></script>
 		<script type="text/javascript" src="/js/angular.min.js"></script>
+		<script type="text/javascript" src="/js/todos_controller.js"></script>
 	</body>
 </html>

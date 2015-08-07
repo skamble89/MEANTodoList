@@ -12,10 +12,15 @@ module.exports = function(passport){
 	    failureFlash : true 
 	}));
 
-	router.all('/:controller?/:action?', isAuthenticated, function (req, res, next) {
-		var route = require('../controllers/' + req.params.controller + '/' + req.params.action);	
+	router.all('/api/:controller', isAuthenticated, function (req, res, next) {
+		var route = require('../api/' + req.params.controller);	
 		route[req.method.toLowerCase()](req, res, next);
 	});
+
+	router.all('/:controller/:action', isAuthenticated, function (req, res, next) {
+		var route = require('../controllers/' + req.params.controller + '/' + req.params.action);	
+		route[req.method.toLowerCase()](req, res, next);
+	});	
 
 	return router;
 }
