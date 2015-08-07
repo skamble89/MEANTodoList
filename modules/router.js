@@ -22,7 +22,7 @@ module.exports = function(passport){
 		route[req.method.toLowerCase()](req, res, next);
 	});
 
-	router.all('/:controller/:action', isAuthenticated, function (req, res, next) {
+	router.all('/:controller?/:action?', isAuthenticated, function (req, res, next) {
 		var route = require('../controllers/' + req.params.controller + '/' + req.params.action);	
 		route[req.method.toLowerCase()](req, res, next);
 	});	
@@ -35,5 +35,6 @@ module.exports = function(passport){
 function isAuthenticated(req, res, next) {
 	if (req.isAuthenticated())
 		return next();
-  	res.redirect('/account/login?redirect='+req.url);
+	console.log((req.url!=='/account/login'?'?redirect='+req.url:''));
+  	res.redirect('/account/login'+(req.url!=='/' ?'?redirect='+req.url:''));
 }
