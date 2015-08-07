@@ -3,14 +3,19 @@ var router = express.Router();
 
 module.exports = function(passport){
 	router.get('/account/login',function(req, res){
-		res.render('account/login');
+		res.render('account/login',{redirect:req.query.redirect});
 	});
 
-	router.post('/account/login', passport.authenticate('local', {
+	router.post('/account/login', passport.authenticate('local'/*, {
 	    successRedirect: '/todos/list',
 	    failureRedirect: '/account/login',
 	    failureFlash : true 
-	}));
+	}*/),function (req, res, next){
+		if(req.isAuthenticated())
+			res.redirect(req.query.redirect || '/todos/list')
+		else
+			res.redirect('/account/login' + (req.query.redirect ? '?redirect='+req.query.redirect : ''));
+	});
 
 	router.all('/api/:controller', isAuthenticated, function (req, res, next) {
 		var route = require('../api/' + req.params.controller);	
@@ -28,7 +33,7 @@ module.exports = function(passport){
 // As with any middleware it is quintessential to call next()
 // if the user is authenticated
 function isAuthenticated(req, res, next) {
-  if (req.isAuthenticated())
-    return next();
-  res.redirect('/account/login');
+	if (req.isAuthenticated())
+		return next();
+  	res.redirect('/account/login?redirect='+req.url);
 }
