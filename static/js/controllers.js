@@ -5,7 +5,7 @@
 		$scope.todo = {};
 
 		function _error(){
-
+			$scope.todo = {};
 		}
 
 		$scope.get = function(){

@@ -11,7 +11,6 @@ exports.get = function(req, res, next){
 }
 
 exports.post = function(req, res, next){
-
 	db.collection('todos').insert({
 		title: req.body.title,
 		description: req.body.description,
