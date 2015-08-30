@@ -1,7 +1,13 @@
 (function(){
 	var module = angular.module('todos-directives', []);
 
-	module.config(function($httpProvider){
+	module.config(function($httpProvider, $provide){
+		$provide.decorator('$controller',function($delegate){
+			return function(){
+				return $delegate.apply({},arguments);
+			};
+		});
+
 		$httpProvider.interceptors.push(function($rootScope, $q){
 			return {
 				request: function(config){
@@ -13,7 +19,7 @@
 					return $q.when(response);
 				},
 				requestError: function(error){
-					$rootScope.$broadcast('requestError`');
+					$rootScope.$broadcast('requestError');
 					return $q.reject(error);
 				},
 				responseError: function(error){
