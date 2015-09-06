@@ -6,25 +6,24 @@
 		<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="/css/style.css">
 	</head>
-	<body ng-app="todosApp">
+	<body>
 		<h1>Welcome, <%=name%></h1>
-		<div ng-controller="TodosController" ajax-container>
-			<input type="text" ng-model="todo.title"/>
-			<textarea ng-model="todo.description"></textarea>
-			<input type="button" value="Save" ng-click="save()"/>
-			<ul>
-				<li ng-repeat="todo in todos">
-					<h3>{{todo.title}}</h3>
-					<p>{{todo.description}}</p>
-					<input type="checkbox" ng-checked="todo.completed"/>
-					<input type="button" value="Delete" ng-click="delete(todo._id)"/>
+		<div>
+			<input type="text" data-bind="value: todo.title"/>
+			<textarea data-bind="value: todo.description"></textarea>
+			<input type="button" value="Save" data-bind="click: save"/>
+			<ul data-bind="foreach: todos, ajaxContainer">
+				<li>
+					<h3 data-bind="text: title"></h3>
+					<p data-bind="text: description"></p>
+					<input type="checkbox" data-bind="checked: completed"/>
+					<input type="button" value="Delete" data-bind="click: $parent.delete"/>
 				</li>
 			</ul>
 		</div>
 		<script type="text/javascript" src="/js/jquery.min.js"></script>
-		<script type="text/javascript" src="/js/underscore-min.js"></script>
-		<script type="text/javascript" src="/js/angular.js"></script>
-		<script type="text/javascript" src="/js/directives.js"></script>
-		<script type="text/javascript" src="/js/controllers.js"></script>
+		<script type="text/javascript" src="/js/knockout.js"></script>
+		<script type="text/javascript" src="/js/custom-bindings.js"></script>
+		<script type="text/javascript" src="/js/TodoListViewModel.js"></script>
 	</body>
 </html>
